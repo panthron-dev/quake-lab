@@ -13,4 +13,4 @@ Summary,Issue Type,Status,Labels,Description
 "Day 2-3: Scheduling note (cron + Task Scheduler)",Task,Done,day2-3,"README_PART2.md: hourly cron line, Windows Task Scheduler steps, log location, how to detect a failed run."
 "Day 2-3: Answer lab questions (ANSWERS_ML.md)",Task,Done,"day2-3,answers","Baseline, accuracy paradox, threshold, leakage check, polynomial complexity, gradient descent vs LinearRegression."
 "Run 40-minute stream and record changed events",Task,To Do,day1,"Run python -m quakes.stream --interval 60 --duration 2400 locally, then python -m quakes.run, and fill the count into ANSWERS.md Q2."
-"Upload project to GitHub",Task,To Do,submission,"Push the quake-lab repo with full commit history and share the link with the trainer."
+"Upload project to GitHub",Task,To Do,submission,"Push the quake-lab repo (github.com/panthron-dev/quake-lab) with full commit history and share the link with the trainer."

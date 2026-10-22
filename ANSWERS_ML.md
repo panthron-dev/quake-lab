@@ -1,6 +1,6 @@
 # Day 2 Lab: Answers
 
-Name: Nouman Jaffar
+Name: Muhammad Nouman Jaffar
 
 Data: USGS `all_week` feed generated 2026-10-22 05:35 UTC, 1894 earthquakes after the ETL
 (1515 train / 379 test, stratified, seed 42). Every number below is reproduced by

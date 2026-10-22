@@ -1,6 +1,6 @@
 # Day 1 Lab: Answers
 
-Name: Nouman Jaffar
+Name: Muhammad Nouman Jaffar
 
 All numbers come from the USGS `all_week` feed generated 2026-10-22 05:35 UTC
 (1942 raw rows → 1894 earthquakes after cleaning). Reproduce them with
