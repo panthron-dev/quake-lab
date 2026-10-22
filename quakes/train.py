@@ -51,7 +51,10 @@ def run(task, model, degree=2, alpha=1.0, C=1.0, balanced=False, df=None, save=T
     if task == "regression":
         base = make_regressor("dummy").fit(X_tr, y_tr)
         pipe = make_regressor(model, degree=degree, alpha=alpha).fit(X_tr, y_tr)
-        report["degree"], report["alpha"] = degree, alpha
+        if model == "poly":
+            report["degree"] = degree
+        if model in ("poly", "ridge"):
+            report["alpha"] = alpha
         report["baseline_test"] = regression_report(y_te, base.predict(X_te))
         report["train"] = regression_report(y_tr, pipe.predict(X_tr))
         report["test"] = regression_report(y_te, pipe.predict(X_te))

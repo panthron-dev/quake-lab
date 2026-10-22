@@ -56,5 +56,16 @@ Add the exact cron line and the Windows Task Scheduler steps that would run
 5. **Settings**: tick "If the task is already running: Do not start a new instance".
 6. OK, enter your password, then right-click the task → **Run** once to test, and check `logs\etl.log`.
 
+**Where the log ends up.** `etl.py` writes every run to `logs/etl.log` inside the project
+(file handler, plus the console). Under cron the console output also goes to `logs/cron.log`.
+
+**How you'd know a run failed.**
+- A crash (an exception) makes Python exit with a non-zero code. cron writes the traceback
+  into `logs/cron.log`, and Task Scheduler shows it in **Last Run Result** (anything other
+  than `0x0` is a failure).
+- A run that "worked" but used old data logs `WARNING ... network failed ... using fallback`.
+- Each successful run ends with `done: table now holds N rows`. If that line's timestamp is
+  more than about an hour old, the schedule stopped. Check it with `tail -n 5 logs/etl.log`.
+
 Alternative from a terminal:
 `schtasks /Create /SC HOURLY /TN "Quake ETL" /TR "cmd /c cd /d C:\Users\you\quake-lab && C:\Users\you\miniconda3\envs\niai-ml\python.exe -m quakes.etl --mode batch"`
