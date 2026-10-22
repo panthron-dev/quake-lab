@@ -28,3 +28,33 @@ Create `ANSWERS_ML.md` with your answers to the six lab questions in the handout
 ## Scheduling note (write in this file)
 Add the exact cron line and the Windows Task Scheduler steps that would run
 `python -m quakes.etl --mode batch` every hour.
+
+### Answer: run the batch ETL every hour
+
+**Linux / macOS (cron).** Run `crontab -e` and add this one line (use your own paths;
+`which python` inside the activated `niai-ml` env prints the python path):
+
+```cron
+0 * * * * cd /Users/you/quake-lab && /Users/you/miniconda3/envs/niai-ml/bin/python -m quakes.etl --mode batch >> logs/cron.log 2>&1
+```
+
+- `0 * * * *` = minute 0 of every hour, every day.
+- cron starts with an almost-empty environment and no `conda activate`, so use the
+  **absolute path to the env's python** and `cd` into the project first (so `import quakes` works).
+- `>> logs/cron.log 2>&1` keeps stdout and errors; `etl.py` also writes `logs/etl.log`.
+- Check it with `crontab -l`. On macOS, give `cron` Full Disk Access if the project is in Documents/Desktop.
+
+**Windows (Task Scheduler).**
+1. Open **Task Scheduler** → **Create Task…** (not "Basic Task", so you get every option).
+2. **General**: name `Quake ETL hourly`; choose "Run whether user is logged on or not".
+3. **Triggers** → New: *Daily*, start today at 00:00, tick **Repeat task every: 1 hour**,
+   *for a duration of:* **Indefinitely** → OK.
+4. **Actions** → New: *Start a program*
+   - Program/script: `C:\Users\you\miniconda3\envs\niai-ml\python.exe`
+   - Add arguments: `-m quakes.etl --mode batch`
+   - Start in: `C:\Users\you\quake-lab`  ← required, or `import quakes` fails
+5. **Settings**: tick "If the task is already running: Do not start a new instance".
+6. OK, enter your password, then right-click the task → **Run** once to test, and check `logs\etl.log`.
+
+Alternative from a terminal:
+`schtasks /Create /SC HOURLY /TN "Quake ETL" /TR "cmd /c cd /d C:\Users\you\quake-lab && C:\Users\you\miniconda3\envs\niai-ml\python.exe -m quakes.etl --mode batch"`
